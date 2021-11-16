@@ -35,3 +35,4 @@
   - 각 메뉴는 vue.js axios를 Spring Rest API를 호출하여 MySQL 'Menu' TABLE의 메뉴 데이터를 불러와서 보여줌.
   - 각 메뉴 링크는 location.href 가 아닌 vue-router를 이용하여 새로고침 없이 페이지 전환되도록 구현.
 <img src="https://user-images.githubusercontent.com/45454552/141891720-ea0fc1de-9614-4af2-8d69-452aa4233827.png">
+<img src="https://user-images.githubusercontent.com/45454552/141910595-b48caa7a-016f-4329-a955-a11bfba7e951.png">
