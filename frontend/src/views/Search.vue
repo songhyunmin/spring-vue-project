@@ -34,7 +34,7 @@ export default {
 
         t.keyword = localStorage.getItem('keyword');
 
-        t.$http.get(this.$backendApp + '/api/search',
+        t.$axios.get(this.$backendApp + '/api/search',
         {
           params: { keyword: t.keyword }
         }).then((res) => {

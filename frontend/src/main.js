@@ -4,7 +4,7 @@ import router from '@/router/index'
 import axios from 'axios'
 
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 Vue.prototype.$backendApp = 'http://localhost:8080'
 
 // 공통함수 설정

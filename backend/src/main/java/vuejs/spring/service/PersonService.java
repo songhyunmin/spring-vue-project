@@ -1,5 +1,6 @@
 package vuejs.spring.service;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import vuejs.spring.domain.Duty;
 import vuejs.spring.domain.Person;
 import vuejs.spring.repository.PersonRepository;
@@ -27,11 +28,19 @@ public class PersonService {
         return personRepository.dutyList(pos);
     }
 
-    public Optional<Person> personView(Long id) {
+    public Optional<Person> personView(int id) {
         return personRepository.personView(id);
     }
 
-    public List<Person> familyList(Long id) {
+    public Person getPerson(int id) {
+        return personRepository.getPerson(id);
+    }
+
+    public List<Person> familyList(int id) {
         return personRepository.familyList(id);
+    }
+
+    public int updatePerson(Person person) {
+        return personRepository.updatePerson(person);
     }
 }

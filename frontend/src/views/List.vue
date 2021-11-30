@@ -37,17 +37,18 @@ export default {
   methods: {
     set: function () {
         let t = this;
-        t.$http.get(this.$backendApp + '/api/duty/' + t.$route.params.pos).then((res) => {
+        t.$axios.get(this.$backendApp + '/api/duty/' + t.$route.params.pos).then((res) => {
             let result = res.data;
             for (let k in result.data) {
                 let duty1 = result.data[k].name;
                 let duty2 = result.data[k].name1;
                 let person = [];
                 
-                t.$http.get(this.$backendApp + '/api/person',
+                t.$axios.get(this.$backendApp + '/api/person',
                 {
                   params: { pos: t.$route.params.pos, duty1: duty1, duty2: duty2 }
                 }).then((resP) => {
+                  console.log(resP);
                     let resultP = resP.data;
                     for (let i in resultP.data) {
                         resultP.data[i].filename = '@/assets/picture/'+ resultP.data[i].name + resultP.data[i].id + '.jpg';
@@ -69,6 +70,35 @@ export default {
             }
 
             console.log(t.list.data);
+        }).catch(function(err) {
+            console.error(err); // Error 출력
+        });
+    },
+    set_del_imsi: function () {
+        let t = this;
+        let duty1 = '목사';
+        let duty2 = '부목사';
+        let person = [];
+        
+        t.$axios.get(this.$backendApp + '/api/person',
+        {
+          params: { pos: t.$route.params.pos, duty1: duty1, duty2: duty2 }
+        }).then((resP) => {
+          console.log(resP);
+            let resultP = resP.data;
+            for (let i in resultP.data) {
+                resultP.data[i].filename = '@/assets/picture/'+ resultP.data[i].name + resultP.data[i].id + '.jpg';
+                if (!this.$fileExist(resultP.data[i].filename)){
+                    resultP.data[i].filename = 'empty.jpg';
+                }
+                else {
+                    resultP.data[i].filename = resultP.data[i].name + resultP.data[i].id + '.jpg';
+                }
+                person.push(resultP.data[i]);
+            }
+            t.list.data.push(
+              {duty1: duty1, duty2: duty2, person: person}
+            );
         }).catch(function(err) {
             console.error(err); // Error 출력
         });

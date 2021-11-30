@@ -19,10 +19,17 @@
 									<p>{{ info.data.birth }} ({{ info.data.solar }})</p>
 									<p>{{ info.data.core }} {{ info.data.coreRelative }}</p>
 									<p>
-										<span class="title">HP) </span> <a :href="'tel:${info.data.mobileNum}'">{{ info.data.mobileNum }}</a>
+										<span class="title">HP) </span> 
+                    <!--<a :href="'tel:${info.data.mobileNum}'">{{ info.data.mobileNum }}</a>-->
+                    <input type="tel" v-model="info.data.mobileNum" />
 									</p>
 									<p>
-										<span class="title">자택) </span> <a :href="'tel:${info.data.telNum}'">{{ info.data.telNum }}</a>
+										<span class="title">자택) </span> 
+                    <!--<a :href="'tel:${info.data.telNum}'">{{ info.data.telNum }}</a>-->
+                    <input type="tel" v-model="info.data.telNum" />
+									</p>
+									<p>
+										<span class="title">주소) </span> {{ info.data.addr }} {{ info.data.addrDetail }}
 									</p>
 									<p>
 										<span class="title"> 등록일) </span> {{ info.data.regDate }}
@@ -52,9 +59,11 @@
 					<li class="ui-li-static ui-body-inherit ui-last-child">
 						<div data-role="controlgroup" data-type="horizontal"
 							data-mini="true" style="text-align: center;" class="ui-controlgroup ui-controlgroup-horizontal ui-corner-all ui-mini">
-							<div style="width: 6rem; margin: auto;">
-								<a href="#" data-role="button" data-position-to="window" class="tel-menu ui-link ui-btn ui-shadow ui-corner-all ui-first-child ui-last-child"
-								v-on:click="telMenu()">문자/전화</a>
+							<div class="btn-list">
+								<a href="#" data-role="button" data-position-to="window" class="tel-menu ui-link ui-btn ui-shadow ui-corner-all"
+								  v-on:click="telMenu()">문자/전화</a>
+                <a href="#" data-role="button" data-position-to="window" class="tel-menu ui-link ui-btn ui-shadow ui-corner-all ui-last-child"
+								  v-on:click="updateData()">연락처 수정</a>
 							</div>
 						</div>
 					</li>
@@ -74,7 +83,7 @@
 							<a :href="'tel:${s.mobileNum}'">{{ s.mobileNum }}</a>
 						</p>
 						<p>
-							<a :href="'tel:${s.mobileNum}'">{{ s.telNum }}</a>
+							<a :href="'tel:${s.telNum}'">{{ s.telNum }}</a>
 						</p>
 					</li>	
 
@@ -132,7 +141,7 @@ export default {
   methods: {
     set: function () {
         let t = this;
-        t.$http.get(t.$backendApp + '/api/person/' + t.$route.params.id).then((res) => {
+        t.$axios.get(t.$backendApp + '/api/person/' + t.$route.params.id).then((res) => {
             res.data.filename = '@/assets/picture/'+ res.data.name + res.data.id + '.jpg';
             if (!this.$fileExist(res.data.filename)){
                 res.data.filename = 'empty.jpg';
@@ -145,7 +154,7 @@ export default {
             console.error(err); // Error 출력
         });
 
-        t.$http.get(this.$backendApp + '/api/family/' + t.$route.params.id).then((res) => {
+        t.$axios.get(this.$backendApp + '/api/family/' + t.$route.params.id).then((res) => {
             let result = res.data;
             t.list.count = result.total;
             for (let i in result.data) {
@@ -161,6 +170,21 @@ export default {
         }).catch(function(err) {
             console.error(err); // Error 출력
         });
+    },
+    updateData: function () {
+        let t = this;
+        let args = t.$renew(t.info.data);
+        
+        t.$axios.post(this.$backendApp + '/api/update/' + t.$route.params.id, args).then(res => {
+          if (res.data == "success") {
+            alert('수정되었습니다.');
+          }
+          else if (res.data == "error") {
+            alert('오류가 발생하였습니다.');
+            return;
+          }
+        })
+        .catch(err => console.log(err));
     },
     familyView: function (id) {
         if (this.$route.params.id != id) {
@@ -191,5 +215,12 @@ export default {
   #popupMenuPerson {
     position: absolute; top: 45%; left: 50%; margin-left: -110px; width: 220px; display:none;
     z-index: 1;
+  }
+  .btn-list {
+    width: 10rem; margin: auto;
+  }
+
+  .btn-list .ui-btn {
+    display: inline-block;
   }
 </style>

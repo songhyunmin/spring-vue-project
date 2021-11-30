@@ -27,7 +27,7 @@ export default {
     set: function () {
         let t = this;
 
-        this.$http.get(this.$backendApp + '/api/menu/list').then((res) => {
+        this.$axios.get(this.$backendApp + '/api/menu/list').then((res) => {
             let result = res.data;
             t.list.count = result.total;
             for (let i in result.data) {

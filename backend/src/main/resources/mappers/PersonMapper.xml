@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.person">
+    <select id="personList" parameterType="hashMap" resultType="person">
+        select * from people
+        <if test="gubun == 'cvname'">
+            where duty1 = #{duty1} and duty2 = #{duty2}
+            <if test="sex != ''">
+                and sex = #{sex}
+            </if>
+        </if>
+        <if test="gubun != 'cvname'">
+            where $column  = #{duty1}
+        </if>
+        order by name
+    </select>
+    <select id="personSearch" parameterType="hashMap" resultType="person">
+        select * from people where id > 0
+        <choose>
+            <when test='keyword == "ㄱ"'>
+                and (name RLIKE '^(ㄱ|ㄲ)' OR ( name <![CDATA[>=]]> '가' AND name <![CDATA[<]]> '나' ))
+            </when>
+            <when test='keyword == "ㄴ"'>
+                and (name RLIKE '^ㄴ' OR ( name <![CDATA[>=]]> '나' AND name <![CDATA[<]]> '다' ))
+            </when>
+            <when test='keyword == "ㄷ"'>
+                and (name RLIKE '^(ㄷ|ㄸ)' OR ( name <![CDATA[>=]]> '다' AND name <![CDATA[<]]> '라' ))
+            </when>
+            <when test='keyword == "ㄹ"'>
+                and (name RLIKE '^ㄹ' OR ( name <![CDATA[>=]]> '라' AND name <![CDATA[<]]> '마' ))
+            </when>
+            <when test='keyword == "ㅁ"'>
+                and (name RLIKE '^ㅁ' OR ( name <![CDATA[>=]]> '마' AND name <![CDATA[<]]> '바' ))
+            </when>
+            <when test='keyword == "ㅂ"'>
+                and (name RLIKE '^ㅂ' OR ( name <![CDATA[>=]]> '바' AND name <![CDATA[<]]> '사' ))
+            </when>
+            <when test='keyword == "ㅅ"'>
+                and (name RLIKE '^(ㅅ|ㅆ)' OR ( name <![CDATA[>=]]> '사' AND name <![CDATA[<]]> '아' ))
+            </when>
+            <when test='keyword == "ㅇ"'>
+                and (name RLIKE '^ㅇ' OR ( name <![CDATA[>=]]> '아' AND name <![CDATA[<]]> '자' ))
+            </when>
+            <when test='keyword == "ㅈ"'>
+                and (name RLIKE '^(ㅈ|ㅉ)' OR ( name <![CDATA[>=]]> '자' AND name <![CDATA[<]]> '차' ))
+            </when>
+            <when test='keyword == "ㅊ"'>
+                and (name RLIKE '^ㅊ' OR ( name <![CDATA[>=]]> '차' AND name <![CDATA[<]]> '카' ))
+            </when>
+            <when test='keyword == "ㅋ"'>
+                and (name RLIKE '^ㅋ' OR ( name <![CDATA[>=]]> '카' AND name <![CDATA[<]]> '타' ))
+            </when>
+            <when test='keyword == "ㅌ"'>
+                and (name RLIKE '^ㅌ' OR ( name <![CDATA[>=]]> '타' AND name <![CDATA[<]]> '파' ))
+            </when>
+            <when test='keyword == "ㅍ"'>
+                and (name RLIKE '^ㅍ' OR ( name <![CDATA[>=]]> '파' AND name <![CDATA[<]]> '하' ))
+            </when>
+            <when test='keyword == "ㅎ"'>
+                and (name RLIKE '^ㅎ' OR ( name <![CDATA[>=]]> '하'))
+            </when>
+            <otherwise>
+                and name LIKE CONCAT('%', #{keyword}, '%')
+            </otherwise>
+        </choose>
+        order by name
+    </select>
+    <select id="dutyList" parameterType="hashMap" resultType="duty">
+        select * from set_dutys where u>0
+        <choose>
+            <when test='pos == "001"'>
+                and gubun = 'cvname' and depth = 2 and name in('목사','전도사','사모','선교사')
+            </when>
+            <when test='pos == "002"'>
+                and gubun = 'cvname' and depth = 2 and name in('장로')
+            </when>
+            <when test='pos == "003"'>
+                and gubun = 'cvname' and depth = 2 and name in('안수집사')
+            </when>
+            <when test='pos == "004"'>
+                and gubun = 'cvname' and depth = 2 and name in('권사')
+            </when>
+            <when test='pos == "005"'>
+                and gubun = 'cvname' and depth = 2 and name in('집사')
+            </when>
+            <when test='pos == "006"'>
+                and gubun = 'cvname' and depth = 2 and name in('집사')
+            </when>
+            <when test='pos == "007"'>
+                and gubun = 'youth' and depth = 1
+            </when>
+            <when test='pos == "008"'>
+                and gubun = 'school' and depth = 1
+            </when>
+            <when test='pos == "009"'>
+                and gubun = 'g' and depth = 1
+            </when>
+            <when test='pos == "010"'>
+                and gubun = 'cvname' and depth = 2 and name in('성도')
+            </when>
+            <when test='pos == "011"'>
+                and gubun = 'cvname' and depth = 2 and name in('성도')
+            </when>
+            <otherwise>
+                and gubun = 'pastor' and depth = 2 and name in('목사','전도사','사모','선교사')
+            </otherwise>
+        </choose>
+        order by ord1, ord2
+    </select>
+    <select id="familyList" parameterType="hashMap" resultType="person">
+        select * from people WHERE corepid IN (SELECT corePid FROM people WHERE id = #{id} ) order by age desc
+    </select>
+    <select id="getPerson" resultType="person">
+        select * from people where id = #{id} order by name
+    </select>
+    <update id="updatePerson" parameterType="person">
+        UPDATE people
+        SET mobileNum =#{mobileNum}, telNum = #{telNum}
+        WHERE id = #{id}
+    </update>
+</mapper>

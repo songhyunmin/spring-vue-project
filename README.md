@@ -24,7 +24,11 @@
 
 ### 3. Database
   - DB : MySQL
+<<<<<<< HEAD
+  - Framework : MyBatis 3.0
+=======
   - Framework : JdbcTemplate
+>>>>>>> 774cbfd2ff20329f46458aa6be96fccf87a1f66e
   - Development Tools : HeidiSQL
 <br><br>
 

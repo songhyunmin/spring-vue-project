@@ -1,0 +1,12 @@
+spring:
+    datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3305/yoram?serverTimezone=UTC&allowPublicKeyRetrieval=true
+        username: root
+        password: song1204
+    jpa:
+        open-in-view: false
+        generate-ddl: true
+        show-sql: true
+        hibernate:
+            ddl-auto: update

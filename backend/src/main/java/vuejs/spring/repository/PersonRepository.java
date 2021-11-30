@@ -10,6 +10,8 @@ public interface PersonRepository {
     List<Person> personList(String pos, String duty1, String duty2);
     List<Person> personSearch(String keyword);
     List<Duty> dutyList(String pos);
-    Optional<Person> personView(Long id);
-    List<Person> familyList(Long id);
+    Optional<Person> personView(int id);
+    Person getPerson(int id);
+    List<Person> familyList(int id);
+    int updatePerson(Person person);
 }

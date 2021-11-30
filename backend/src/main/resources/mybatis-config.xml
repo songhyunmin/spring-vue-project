@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="vuejs.spring.domain.Menu" alias="menu"/>
+        <typeAlias type="vuejs.spring.domain.Person" alias="person"/>
+        <typeAlias type="vuejs.spring.domain.Duty" alias="duty"/>
+    </typeAliases>
+</configuration>
