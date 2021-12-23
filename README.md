@@ -1,8 +1,7 @@
 ## Description
 
- .NET Framework 프로그램을 Spring Boot 으로 개발 (기존 스마트요람이라는 프로그램)
+ 교회 요람 프로그램을 Spring Boot 으로 개발 (하이브리드앱으로 웹부분)
  
-(기존 프로그램 환경. ASP.NET, Razor구문, MS-SQL, 하이드리드웹)
 <br><br>
 
 
